@@ -1,222 +1,70 @@
--- Создаем ScreenGui
-local ScreenGui = Instance.new("ScreenGui")
-ScreenGui.Name = "LoginSystem  Extazzy hub"
-ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
-ScreenGui.ResetOnSpawn = false
-
--- Получение Client ID (HWID)
-local RbxAnalyticsService = game:GetService("RbxAnalyticsService")
-local currentHWID = RbxAnalyticsService:GetClientId()
-
--- Основной фрейм (темная тема)
-local Frame = Instance.new("Frame")
-Frame.Size = UDim2.new(0, 350, 0, 280) -- Увеличиваем высоту для HWID
-Frame.Position = UDim2.new(0.5, -175, 0.5, -140)
-Frame.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
-Frame.BorderSizePixel = 0
-Frame.Parent = ScreenGui
-
--- UICorner для скругленных углов
-local Corner = Instance.new("UICorner")
-Corner.CornerRadius = UDim.new(0, 10)
-Corner.Parent = Frame
-
--- Кнопка закрытия
-local CloseButton = Instance.new("TextButton")
-CloseButton.Size = UDim2.new(0, 30, 0, 30)
-CloseButton.Position = UDim2.new(1, -40, 0, 10)
-CloseButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-CloseButton.Text = "X"
-CloseButton.TextColor3 = Color3.fromRGB(0, 0, 0)
-CloseButton.TextSize = 18
-CloseButton.Font = Enum.Font.SourceSansBold
-CloseButton.Parent = Frame
-
--- UICorner для кнопки закрытия
-local CloseCorner = Instance.new("UICorner")
-CloseCorner.CornerRadius = UDim.new(0, 5)
-CloseCorner.Parent = CloseButton
-
--- Поле ввода логина
-local UsernameInput = Instance.new("TextBox")
-UsernameInput.Size = UDim2.new(0, 300, 0, 50)
-UsernameInput.Position = UDim2.new(0.5, -150, 0, 50)
-UsernameInput.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
-UsernameInput.TextColor3 = Color3.fromRGB(255, 255, 255)
-UsernameInput.PlaceholderText = "Enter Username..."
-UsernameInput.Text = ""
-UsernameInput.TextSize = 18
-UsernameInput.Font = Enum.Font.SourceSans
-UsernameInput.Parent = Frame
-
--- UICorner для поля логина
-local UserInputCorner = Instance.new("UICorner")
-UserInputCorner.CornerRadius = UDim.new(0, 8)
-UserInputCorner.Parent = UsernameInput
-
--- Поле ввода пароля
-local PasswordInput = Instance.new("TextBox")
-PasswordInput.Size = UDim2.new(0, 300, 0, 50)
-PasswordInput.Position = UDim2.new(0.5, -150, 0, 110)
-PasswordInput.BackgroundColor3 = Color3.fromRGB(35, 35, 35)
-PasswordInput.TextColor3 = Color3.fromRGB(255, 255, 255)
-PasswordInput.PlaceholderText = "Enter Password..."
-PasswordInput.Text = ""
-PasswordInput.TextSize = 18
-PasswordInput.Font = Enum.Font.SourceSans
-PasswordInput.Parent = Frame
-
--- UICorner для поля пароля
-local PassInputCorner = Instance.new("UICorner")
-PassInputCorner.CornerRadius = UDim.new(0, 8)
-PassInputCorner.Parent = PasswordInput
-
--- Кнопка входа
-local SubmitButton = Instance.new("TextButton")
-SubmitButton.Size = UDim2.new(0, 300, 0, 50)
-SubmitButton.Position = UDim2.new(0.5, -150, 0, 170)
-SubmitButton.BackgroundColor3 = Color3.fromRGB(0, 150, 0)
-SubmitButton.Text = "Submit"
-SubmitButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-SubmitButton.TextSize = 18
-SubmitButton.Font = Enum.Font.SourceSansBold
-SubmitButton.Parent = Frame
-
--- UICorner для кнопки Submit
-local SubmitCorner = Instance.new("UICorner")
-SubmitCorner.CornerRadius = UDim.new(0, 8)
-SubmitCorner.Parent = SubmitButton
-
--- TextLabel для отображения HWID
-local HWIDLabel = Instance.new("TextLabel")
-HWIDLabel.Size = UDim2.new(0, 260, 0, 30)
-HWIDLabel.Position = UDim2.new(0.5, -150, 0, 230)
-HWIDLabel.BackgroundTransparency = 1
-HWIDLabel.Text = "HWID: " .. currentHWID
-HWIDLabel.TextColor3 = Color3.fromRGB(200, 200, 200)
-HWIDLabel.TextSize = 18
-HWIDLabel.Font = Enum.Font.SourceSans
-HWIDLabel.TextScaled = false
-HWIDLabel.TextTruncate = Enum.TextTruncate.AtEnd -- Обрезаем длинный текст
-HWIDLabel.Parent = Frame
-
--- Кнопка Copy для HWID
-local CopyButton = Instance.new("TextButton")
-CopyButton.Size = UDim2.new(0, 40, 0, 30)
-CopyButton.Position = UDim2.new(0.5, 110, 0, 230)
-CopyButton.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
-CopyButton.Text = "< - Copy"
-CopyButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-CopyButton.TextSize = 16
-CopyButton.Font = Enum.Font.SourceSansBold
-CopyButton.Parent = Frame
-
--- UICorner для кнопки Copy
-local CopyCorner = Instance.new("UICorner")
-CopyCorner.CornerRadius = UDim.new(0, 5)
-CopyCorner.Parent = CopyButton
-
--- Список пользователей с логинами, паролями, датами, ролями, цветами и HWID
-local users = {
-    ["zennixfame"] = {password = "DevLog", date = "LifeTime", role = "Owner", color = {0, 0, 0}, hwid = "25E3631F-929A-4ECF-BF12-0E020490286C"},
-    ["Lobby"] = {password = "Lobby123", date = "LifeTime", role = "Sub", color = {0, 0, 0}, hwid = "3E5C5D01-73CF-4A0A-AE8B-6547E98FAE56"},
-    ["Al1shkaKid"] = {password = "Sigma123", date = "LifeTime", role = "Friendship", color = {0, 255, 0}, hwid = "7F76FBEC-35B9-4388-BA7C-6CC165597B61"},
-    ["haha"] = {password = "12344321", date = "LifeTime", role = "Friendship", color = {0, 191, 255}, hwid = "5723A30D-577D-4F72-B5CB-A27F89B9E554"},
-    ["trolling"] = {password = "toxing", date = "LifeTime", role = "Friendship", color = {0, 255, 0}, hwid = "CD02AD55-0C05-469E-9BBB-108AED950CA0"}
+-- CODED BY Extazzy Hub "THE TERRIBLE"
+ 
+getgenv().Aimbot = {
+    Status = true,
+    Keybind  = 'R',
+    Hitpart = 'HumanoidRootPart',
+    ['Prediction'] = {
+        X = 0.165,
+        Y = 0.1,
+    },
 }
-
--- Функция копирования HWID в буфер обмена
-CopyButton.MouseButton1Click:Connect(function()
-    if setclipboard then
-        setclipboard(currentHWID)
-        CopyButton.Text = "Copied!"
-        wait(1)
-        CopyButton.Text = "< - Copy"
-    else
-        CopyButton.Text = "Copy Failed!"
-        wait(1)
-        CopyButton.Text = "< - Copy"
+ 
+if getgenv().AimbotRan then
+    return
+else
+    getgenv().AimbotRan = true
+end
+-- make it reexecutable to update settings
+ 
+ 
+local RunService = game:GetService('RunService')
+local Workspace = game:GetService('Workspace')
+local Players = game:GetService('Players')
+ 
+local LocalPlayer = Players.LocalPlayer
+local Camera = Workspace.CurrentCamera
+local Mouse = LocalPlayer:GetMouse()
+ 
+local Player = nil -- Our target player
+ 
+ 
+local GetClosestPlayer = function() -- // Optimized GetClosestPlayer i believe?
+    local ClosestDistance, ClosestPlayer = 100000, nil
+    for _, Player : Player in pairs(Players:GetPlayers()) do
+        if Player.Name ~= LocalPlayer.Name and Player.Character and Player.Character:FindFirstChild('HumanoidRootPart') then
+            local Root, Visible = Camera:WorldToScreenPoint(Player.Character.HumanoidRootPart.Position)
+            if not Visible then
+                continue
+            end
+            Root = (Vector2.new(Mouse.X, Mouse.Y) - Vector2.new(Root.X, Root.Y)).Magnitude
+            if Root < ClosestDistance then
+                ClosestPlayer = Player
+                ClosestDistance = Root
+            end
+        end
+    end
+    return ClosestPlayer
+end
+ 
+Mouse.KeyDown:Connect(function(key) -- Get our closest player (toggle)
+    if key == Aimbot.Keybind:lower() then
+        Player = not Player and GetClosestPlayer() or nil
     end
 end)
-
--- Функция закрытия GUI
-CloseButton.MouseButton1Click:Connect(function()
-    ScreenGui:Destroy()
-end)
-
--- Функция проверки логина, пароля и HWID
-SubmitButton.MouseButton1Click:Connect(function()
-    local username = UsernameInput.Text
-    local password = PasswordInput.Text
-    
-    -- Проверяем, совпадают ли логин, пароль и HWID
-    if users[username] and users[username].password == password and users[username].hwid == currentHWID then
-        -- Удаляем начальный GUI
-        Frame.Visible = false
-        
-        -- Создаем фрейм для сообщения
-        local SuccessFrame = Instance.new("Frame")
-        SuccessFrame.Size = UDim2.new(0.5, 0, 0.5, 0)
-        SuccessFrame.Position = UDim2.new(0.25, 0, 0.25, 0)
-        SuccessFrame.BackgroundColor3 = Color3.fromRGB(25, 25, 25)
-        SuccessFrame.BorderSizePixel = 0
-        SuccessFrame.Parent = ScreenGui
-        
-        -- UICorner для сообщения
-        local SuccessCorner = Instance.new("UICorner")
-        SuccessCorner.CornerRadius = UDim.new(0, 10)
-        SuccessCorner.Parent = SuccessFrame
-        
-        -- Текст успешного входа
-        local SuccessLabel = Instance.new("TextLabel")
-        SuccessLabel.Size = UDim2.new(1, 0, 0.4, 0)
-        SuccessLabel.BackgroundTransparency = 1
-        SuccessLabel.Text = "Successfully Logged In!"
-        SuccessLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
-        SuccessLabel.TextSize = 40
-        SuccessLabel.Font = Enum.Font.SourceSansBold
-        SuccessLabel.TextScaled = true
-        SuccessLabel.Parent = SuccessFrame
-        
-        -- Текст роли с цветом из таблицы
-        local RoleLabel = Instance.new("TextLabel")
-        RoleLabel.Size = UDim2.new(1, 0, 0.3, 0)
-        RoleLabel.Position = UDim2.new(0, 0, 0.4, 0)
-        RoleLabel.BackgroundTransparency = 1
-        RoleLabel.Text = "Role: " .. users[username].role
-        RoleLabel.TextSize = 30
-        RoleLabel.Font = Enum.Font.SourceSansBold
-        RoleLabel.TextScaled = true
-        RoleLabel.TextColor3 = Color3.fromRGB(users[username].color[1], users[username].color[2], users[username].color[3])
-        RoleLabel.Parent = SuccessFrame
-        
-        -- Текст с датой
-        local DateLabel = Instance.new("TextLabel")
-        DateLabel.Size = UDim2.new(1, 0, 0.3, 0)
-        DateLabel.Position = UDim2.new(0, 0, 0.7, 0)
-        DateLabel.BackgroundTransparency = 1
-        DateLabel.Text = "Date: " .. users[username].date
-        DateLabel.TextColor3 = Color3.fromRGB(200, 200, 200)
-        DateLabel.TextSize = 24
-        DateLabel.Font = Enum.Font.SourceSans
-        DateLabel.TextScaled = true
-        DateLabel.Parent = SuccessFrame
-        
-        -- Задержка перед закрытием
-        wait(6)
-        
-        -- Удаляем GUI
-        ScreenGui:Destroy()
-		loadstring(game:HttpGet("https://raw.githubusercontent.com/zennixfame/2/refs/heads/main/2"))()
-		
-		
-    else
-        -- Если данные неверные или HWID не совпадает
-        UsernameInput.Text = ""
-        PasswordInput.Text = ""
-        UsernameInput.PlaceholderText = "Invalid Username/Password/HWID!"
-        UsernameInput.PlaceholderColor3 = Color3.fromRGB(255, 0, 0)
-        PasswordInput.PlaceholderText = "Invalid Username/Password/HWID!"
-        PasswordInput.PlaceholderColor3 = Color3.fromRGB(255, 0, 0)
+ 
+RunService.RenderStepped:Connect(function()
+    if not Player then
+        return
     end
+    if not Aimbot.Status then
+        return
+    end
+    local Hitpart = Player.Character:FindFirstChild(Aimbot.Hitpart)
+    if not Hitpart then
+        return
+    end
+    Camera.CFrame = CFrame.new(Camera.CFrame.Position, Hitpart.Position + Hitpart.Velocity * Vector3.new(Aimbot.Prediction.X, Aimbot.Prediction.Y, Aimbot.Prediction.X))
 end)
+
+loadstring(game:HttpGet(('https://raw.githubusercontent.com/AvianProjects/Dahood/main/AntilockerV2'),true))()
